@@ -25,14 +25,13 @@ class Tree {
 }
 
 class Bullet {
-    constructor(texture, width, height, posX, posY, dirX, dirY, speed) {
+    constructor(texture, width, height, posX, posY, dirX, dirY) {
         this.texture = document.getElementById('bulletImg');
-        this.width = 10;
-        this.height = 5;
+        this.width = 30;
+        this.height =30;
         this.posX = player.posX + player.width - 15;
         this.posY = player.posY + player.height - 21;
-        this.dirX = 0;
+        this.dirX = 15;
         this.dirY = 0;
-        this.speed = 15;
     }
 }

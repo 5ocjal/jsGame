@@ -10,7 +10,7 @@ let treesArr = [];
 let bulletsArr = [];
 
 let options = {
-    treeNumber: 7,
+    treeNumber: 2,
 };
 
 const player = {
@@ -44,7 +44,7 @@ function clearScreen() {
 
 function drawGui() {
     ctx.font = '20px Arial';
-    ctx.fillStyle = 'green';
+    ctx.fillStyle = 'white';
     ctx.fillText('Player ' + player.name + ' is ' + (player.alive ? 'alive' : 'dead'), 40, 40, 150);
     ctx.fillText('Ammo: ' + player.ammo, 40, 65, 150), ctx.fillText('Running:  ' + (isRunning ? 'On' : 'No'), 40, 90, 150);
 
@@ -55,6 +55,12 @@ function drawGui() {
 
 function drawPlayer() {
     ctx.drawImage(playerImg, player.posX, player.posY, player.width, player.height);
+}
+
+function drawBullet() {
+    for (let i = 0; i < bulletsArr.length; i++) {
+        ctx.drawImage(bulletsArr[i].texture, bulletsArr[i].posX, bulletsArr[i].posY, bulletsArr[i].width, bulletsArr[i].height);
+    }
 }
 
 function drawTree() {
@@ -71,28 +77,20 @@ function createTree() {
 }
 
 function createBullet() {
-    if (bulletsArr.length == 0) {
-        console.log('ODŁAMKOWYM!');
-        let bullet1 = new Bullet();
-        bulletsArr.push(bullet1);
-    } else {
-        console.log('JEST JUŻ KULKA');
+    if (player.ammo > 0) {
+        if (bulletsArr.length == 0) {
+            let bullet1 = new Bullet();
+            bulletsArr.push(bullet1);
+            --player.ammo;
+        } else {
+            bulletsArr = [];
+        }
     }
 }
 
 function newPossition() {
     player.posX += player.dirX;
     player.posY += player.dirY;
-}
-
-function update() {
-    clearScreen();
-    drawPlayer();
-    drawTree();
-    drawGui();
-    newPossition();
-    wallDetection();
-    requestAnimationFrame(update);
 }
 
 function wallDetection() {
@@ -106,9 +104,7 @@ function keyDownEvent(e) {
     console.log('KEY: ', e.key);
     playerIsRunning(e);
 
-    e.key === 'q' ? createBullet() : null;
-    e.key === 'e' ? createTree() : null;
-    e.key === 'z' ? gunFire() : null;
+    e.key === 'e' ? createBullet() : null;
     e.key === 'd' ? (player.dirX = 1 * player.speed) : null;
     e.key === 'a' ? (player.dirX = -1 * player.speed) : null;
     e.key === 'w' ? (player.dirY = -1 * player.speed) : null;
@@ -128,8 +124,21 @@ function playerIsRunning(e) {
 }
 
 function gunFire() {
-    bulletsArr = [];
-    console.log('Fire: ', bulletsArr);
+    if (bulletsArr.length > 0) {
+        bulletsArr[0].posX += bulletsArr[0].dirX;
+    }
+}
+
+function update() {
+    clearScreen();
+    drawPlayer();
+    drawTree();
+    drawBullet();
+    drawGui();
+    newPossition();
+    gunFire();
+    wallDetection();
+    requestAnimationFrame(update);
 }
 
 createTree();
