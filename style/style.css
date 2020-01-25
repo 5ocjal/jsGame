@@ -15,10 +15,14 @@ body {
 }
 
 #canvas {
-    background: #c7dbd1;
+    background-image: url("../assets/dirt0.png");
     border-radius: 5px;
 }
 
 #playerImg {
+    display: none;
+}
+
+#treeImg {
     display: none;
 }

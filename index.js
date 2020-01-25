@@ -1,9 +1,14 @@
 const canvas = document.getElementById('canvas');
+canvas.width = 1024;
+canvas.height = 1024;
 const ctx = canvas.getContext('2d');
 
 const playerImg = document.getElementById('playerImg')
+const treeImg = document.getElementById('treeImg');
 
 const player = {
+    name: 'Yerdek',
+    alive: true,
     width: 100,
     height: 70,
     posX: 100,
@@ -13,14 +18,56 @@ const player = {
     dirY: 0,
 }
 
-let = isRunning = false;
-
-function drawPlayer() {
-    ctx.drawImage(playerImg, player.posX, player.posY, player.width, player.height);
+const bullet = {
+    posX: (player.posX + player.width - 7),
+    posY: (player.posY + player.height - 19),
+    dirX: 0,
+    dirY: 0,
+    speed: 15,
+    size: 12,
+    sAngle: 0,
+    eAngle: Math.PI *2,
 }
+
+const tree = {
+    width: 400,
+    height: 400,
+    posX: Math.floor(Math.random() * (canvas.width - 0 + 1)) + 0,
+    posY: Math.floor(Math.random() * (canvas.height - 0 + 1)) + 0,
+    dirX: 0,
+    dirY: 0,
+    speed: 0,
+}
+
+let = isRunning = false;
 
 function clearScreen() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+function drawGui() {
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'green';
+    ctx.fillText('Player ' + player.name + ' is ' + (player.alive ? 'alive' : 'dead'), 40, 40, 150);
+
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'black';
+    ctx.fillText('Running:  ' + (isRunning ? 'On' : 'No'), 40, 65);
+}
+
+function drawPlayer() {
+    ctx.drawImage(playerImg, player.posX, player.posY, player.width, player.height);     
+}
+
+function drawTree() {
+    ctx.drawImage(treeImg, tree.posX, tree.posY, tree.width, tree.height);
+}
+
+function drawBullet() {
+    ctx.beginPath();
+    ctx.arc(bullet.posX, bullet.posY, bullet.size, bullet.sAngle, bullet.eAngle);
+    ctx.fillStyle = 'black';
+    ctx.fill();
+    ctx.stroke();
 }
 
 function newPossition() {
@@ -31,6 +78,8 @@ function newPossition() {
 function update() {
     clearScreen();
     drawPlayer();
+    drawTree();
+    drawGui();
     newPossition();
     wallDetection();
     requestAnimationFrame(update);
