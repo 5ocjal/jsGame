@@ -1,14 +1,16 @@
 const canvas = document.getElementById('canvas');
-canvas.width = 1024;
-canvas.height = 1024;
+canvas.width = 1200;
+canvas.height = 900;
 const ctx = canvas.getContext('2d');
 
 const playerImg = document.getElementById('playerImg')
 const treeImg = document.getElementById('treeImg');
+const bulletImg = document.getElementById('bulletImg');
 
 const player = {
     name: 'Yerdek',
     alive: true,
+    ammo: 5,
     width: 100,
     height: 70,
     posX: 100,
@@ -18,22 +20,21 @@ const player = {
     dirY: 0,
 }
 
-const bullet = {
-    posX: (player.posX + player.width - 7),
-    posY: (player.posY + player.height - 19),
+const Bullet = {
+    width: 100,
+    height: 50,
+    posX: 0, // (player.posX + player.width - 15),
+    posY: 0, // (player.posY + player.height - 21),
     dirX: 0,
     dirY: 0,
     speed: 15,
-    size: 12,
-    sAngle: 0,
-    eAngle: Math.PI *2,
 }
 
 const tree = {
     width: 400,
     height: 400,
-    posX: Math.floor(Math.random() * (canvas.width - 0 + 1)) + 0,
-    posY: Math.floor(Math.random() * (canvas.height - 0 + 1)) + 0,
+    posX: Math.floor(Math.random() * ((canvas.width - 200) - 0 + 1)) + 0,
+    posY: Math.floor(Math.random() * ((canvas.height - 200) - 0 + 1)) + 0,
     dirX: 0,
     dirY: 0,
     speed: 0,
@@ -48,14 +49,12 @@ function drawGui() {
     ctx.font = '20px Arial';
     ctx.fillStyle = 'green';
     ctx.fillText('Player ' + player.name + ' is ' + (player.alive ? 'alive' : 'dead'), 40, 40, 150);
-
-    ctx.font = '20px Arial';
-    ctx.fillStyle = 'black';
-    ctx.fillText('Running:  ' + (isRunning ? 'On' : 'No'), 40, 65);
+    ctx.fillText('Ammo: ' + player.ammo, 40, 65,150),
+    ctx.fillText('Running:  ' + (isRunning ? 'On' : 'No'), 40, 90,150);
 }
 
 function drawPlayer() {
-    ctx.drawImage(playerImg, player.posX, player.posY, player.width, player.height);     
+    ctx.drawImage(playerImg, player.posX, player.posY, player.width, player.height);
 }
 
 function drawTree() {
@@ -63,11 +62,10 @@ function drawTree() {
 }
 
 function drawBullet() {
-    ctx.beginPath();
-    ctx.arc(bullet.posX, bullet.posY, bullet.size, bullet.sAngle, bullet.eAngle);
-    ctx.fillStyle = 'black';
-    ctx.fill();
-    ctx.stroke();
+    console.log('Drawing bullet');
+
+    let newBullet = new Bullet();
+    ctx.drawImage(bulletImg, Bullet.posX, Bullet.posY, Bullet.width, Bullet.height);
 }
 
 function newPossition() {
@@ -75,11 +73,17 @@ function newPossition() {
     player.posY += player.dirY;
 }
 
+function fireBullet() {
+    Bullet.posX += Bullet.dirX;
+}
+
 function update() {
+
     clearScreen();
     drawPlayer();
-    drawTree();
-    drawGui();
+    drawTree(); 
+    drawGui()
+    fireBullet();
     newPossition();
     wallDetection();
     requestAnimationFrame(update);
@@ -95,13 +99,13 @@ function wallDetection() {
 function keyDownEvent(e) {
 
     playerIsRunning(e);
-
+    
+    e.keyCode == 32 ? gunFire(e) : null;
     e.key === 'd' ? player.dirX = 1 * player.speed : null;
     e.key === 'a' ? player.dirX = -1 * player.speed : null;
     e.key === 'w' ? player.dirY = -1 * player.speed : null;
     e.key === 's' ? player.dirY = 1 * player.speed : null;
 }
-
 
 function keyUpEvent(e) {
     e.key === 'd' ? player.dirX = 0 : null;
@@ -113,6 +117,20 @@ function keyUpEvent(e) {
 function playerIsRunning(e) {
     e.key === 'Shift' ? isRunning = !isRunning : null;
     isRunning ? player.speed = 5 : player.speed = 1;
+}
+
+function gunFire(e) {
+
+    let takeX = player.posX;
+    let takeY = player.posY;
+
+    console.log('Player X: ', takeX +' PlayerY: ', takeY);
+
+    if(player.ammo > 0){
+        drawBullet(); 
+        e.keyCode == 32 ? Bullet.dirX = 1 * Bullet.speed : null;
+        player.ammo = --player.ammo
+    }
 }
 
 update();
