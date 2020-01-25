@@ -10,7 +10,7 @@ let treesArr = [];
 let bulletsArr = [];
 
 let options = {
-    treeNumber: 2,
+    treeNumber: 7,
 };
 
 const player = {
@@ -24,16 +24,6 @@ const player = {
     speed: 1,
     dirX: 0,
     dirY: 0,
-};
-
-const tree = {
-    width: 400,
-    height: 400,
-    posX: Math.floor(Math.random() * (canvas.width - 200 - 0 + 1)) + 0,
-    posY: Math.floor(Math.random() * (canvas.height - 200 - 0 + 1)) + 0,
-    dirX: 0,
-    dirY: 0,
-    speed: 0,
 };
 
 let = isRunning = false;
