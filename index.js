@@ -142,6 +142,17 @@ function gunFire() {
 
 function useSupply() {
     for (let i = 0; i < ammoBoxArr.length; i++) {
+<<<<<<< HEAD
+=======
+        let pX = player.posX;
+        let pY = player.posY;
+        let aX = ammoBoxArr[i].posX;
+        let aY = ammoBoxArr[i].posY;
+
+        console.log('aX - pX: ', aX - pX);
+        console.log('aY - pY: ', aY - pY);
+
+>>>>>>> 7fdd31084934285196a307880f7ceb4bcc6952f2
         if (ammoBoxArr[i].posX - player.posX <= 30 && ammoBoxArr[i].posY - player.posY <= 20) {
             player.ammo = player.ammo + 3;
             ammoBoxArr = [];
