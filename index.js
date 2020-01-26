@@ -1,6 +1,6 @@
 const canvas = document.getElementById('canvas');
-canvas.width = 800; //window.innerWidth;
-canvas.height = 600; //window.innerWidth;
+canvas.width = window.innerWidth;
+canvas.height = window.innerWidth;
 const ctx = canvas.getContext('2d');
 
 const playerImg = document.getElementById('playerImg');
@@ -11,8 +11,8 @@ let bulletsArr = [];
 let ammoBoxArr = [];
 
 let options = {
-    treeNumber: 12,
-    ammoSupply: 2,
+    treeNumber: 2, // canvas.height /20,
+    ammoSupply: 1,
 };
 
 const player = {
@@ -83,13 +83,9 @@ function createSupply() {
 
 function createBullet() {
     if (player.ammo > 0) {
-        if (bulletsArr.length == 0) {
-            let bullet1 = new Bullet();
-            bulletsArr.push(bullet1);
-            --player.ammo;
-        } else {
-            bulletsArr = [];
-        }
+        let bullet = new Bullet();
+        bulletsArr.push(bullet);
+        --player.ammo;
     }
 }
 
@@ -103,33 +99,61 @@ function wallDetection() {
     player.posY < 0 ? (player.posY = 0) : null;
     player.posX + player.width > canvas.width ? (player.posX = canvas.width - player.width) : null;
     player.posY + player.height > canvas.height ? (player.posY = canvas.height - player.height) : null;
+
+    if (bulletsArr.length > 0) {
+        for (let i = 0; i < bulletsArr.length; i++) {
+            if (bulletsArr[i].posX >= canvas.width || bulletsArr[i].posX < 0 || bulletsArr[i].posY >= canvas.height || bulletsArr[i].posY < 0) {
+                bulletsArr.splice(i, 1);
+            }
+        }
+    }
 }
 
 function keyDownEvent(e) {
     playerIsRunning(e);
 
-    e.key === 'e' ? createBullet() : null;
-    e.key === 'd' ? (player.dirX = 1 * player.speed) : null;
-    e.key === 'a' ? (player.dirX = -1 * player.speed) : null;
-    e.key === 'w' ? (player.dirY = -1 * player.speed) : null;
-    e.key === 's' ? (player.dirY = 1 * player.speed) : null;
+    e.key === 'q' ? console.log('Bullets: ', bulletsArr) : null;
+    e.keyCode === 69 ? createBullet() : null;
+    e.keyCode == 68 ? (player.dirX = 1 * player.speed) : null;
+    e.keyCode === 65 ? (player.dirX = -1 * player.speed) : null;
+    e.keyCode === 87 ? (player.dirY = -1 * player.speed) : null;
+    e.keyCode === 83 ? (player.dirY = 1 * player.speed) : null;
 }
 
 function keyUpEvent(e) {
-    e.key === 'd' ? (player.dirX = 0) : null;
-    e.key === 'a' ? (player.dirX = 0) : null;
-    e.key === 'w' ? (player.dirY = 0) : null;
-    e.key === 's' ? (player.dirY = 0) : null;
+    e.keyCode === 68 ? (player.dirX = 0) : null;
+    e.keyCode === 65 ? (player.dirX = 0) : null;
+    e.keyCode === 87 ? (player.dirY = 0) : null;
+    e.keyCode === 83 ? (player.dirY = 0) : null;
 }
 
 function playerIsRunning(e) {
-    e.key === 'Shift' ? (isRunning = !isRunning) : null;
+    e.keyCode === 16 ? (isRunning = !isRunning) : null;
     isRunning ? (player.speed = 5) : (player.speed = 1);
 }
 
 function gunFire() {
     if (bulletsArr.length > 0) {
-        bulletsArr[0].posX += bulletsArr[0].dirX;
+        for (let i = 0; i < bulletsArr.length; i++) {
+            bulletsArr[i].posX += bulletsArr[i].dirX;
+        }
+    }
+}
+
+function useSupply() {
+    for (let i = 0; i < ammoBoxArr.length; i++) {
+        let pX = player.posX;
+        let pY = player.posY;
+        let aX = ammoBoxArr[i].posX;
+        let aY = ammoBoxArr[i].posY;
+
+        console.log('aX - pX: ', aX - pX);
+        console.log('aY - pY: ', aY - pY);
+
+        if (ammoBoxArr[i].posX - player.posX <= 30 && ammoBoxArr[i].posY - player.posY <= 20) {
+            player.ammo = player.ammo + 3;
+            ammoBoxArr = [];
+        }
     }
 }
 
@@ -143,9 +167,9 @@ function update() {
     newPossition();
     gunFire();
     wallDetection();
+    useSupply();
     requestAnimationFrame(update);
 }
-
 
 createTree();
 createSupply();
