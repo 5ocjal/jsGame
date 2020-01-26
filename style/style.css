@@ -15,18 +15,10 @@ body {
 }
 
 #canvas {
-    background-image: url("../assets/dirt0.png");
+    background-image: url("../assets/terrain/dirt0.png");
     border-radius: 5px;
 }
 
-#playerImg {
-    display: none;
-}
-
-#treeImg {
-    display: none;
-}
-
-#bulletImg {
+#playerImg, #boxImg, #treeImg, #bulletImg{
     display: none;
 }

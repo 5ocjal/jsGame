@@ -1,6 +1,6 @@
 const canvas = document.getElementById('canvas');
-canvas.width = window.innerWidth;
-canvas.height = window.innerWidth;
+canvas.width = 800; //window.innerWidth;
+canvas.height = 600; //window.innerWidth;
 const ctx = canvas.getContext('2d');
 
 const playerImg = document.getElementById('playerImg');
@@ -8,9 +8,11 @@ const playerImg = document.getElementById('playerImg');
 let playersAlive = [];
 let treesArr = [];
 let bulletsArr = [];
+let ammoBoxArr = [];
 
 let options = {
-    treeNumber: 7,
+    treeNumber: 12,
+    ammoSupply: 2,
 };
 
 const player = {
@@ -21,7 +23,7 @@ const player = {
     height: 70,
     posX: 100,
     posY: 200,
-    speed: 1,
+    speed: 3,
     dirX: 0,
     dirY: 0,
 };
@@ -59,10 +61,23 @@ function drawTree() {
     }
 }
 
+function drawSupply() {
+    for (let i = 0; i < ammoBoxArr.length; i++) {
+        ctx.drawImage(ammoBoxArr[i].texture, ammoBoxArr[i].posX, ammoBoxArr[i].posY, ammoBoxArr[i].width, ammoBoxArr[i].height);
+    }
+}
+
 function createTree() {
     for (let i = 0; i < options.treeNumber; i++) {
         let tree = new Tree();
         treesArr.push(tree);
+    }
+}
+
+function createSupply() {
+    for (let i = 0; i < options.ammoSupply; i++) {
+        let ammoBox = new Box();
+        ammoBoxArr.push(ammoBox);
     }
 }
 
@@ -91,7 +106,6 @@ function wallDetection() {
 }
 
 function keyDownEvent(e) {
-    console.log('KEY: ', e.key);
     playerIsRunning(e);
 
     e.key === 'e' ? createBullet() : null;
@@ -121,6 +135,7 @@ function gunFire() {
 
 function update() {
     clearScreen();
+    drawSupply();
     drawPlayer();
     drawTree();
     drawBullet();
@@ -131,8 +146,11 @@ function update() {
     requestAnimationFrame(update);
 }
 
+
 createTree();
+createSupply();
 update();
 
 document.addEventListener('keydown', keyDownEvent);
 document.addEventListener('keyup', keyUpEvent);
+document.addEventListener('onClick', createBullet);
