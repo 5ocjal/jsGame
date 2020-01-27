@@ -4,21 +4,24 @@ canvas.height = window.innerWidth;
 const ctx = canvas.getContext('2d');
 
 const playerImg = document.getElementById('playerImg');
+const flash = document.getElementById('flashImg');
 
 let playersAlive = [];
 let treesArr = [];
 let bulletsArr = [];
 let ammoBoxArr = [];
+let gunFlashArr = [];
 
 let options = {
+    ammo: 7,
     treeNumber: 2, // canvas.height /20,
     ammoSupply: 1,
 };
 
 const player = {
-    name: 'Yerdek',
+    name: 'Rambo',
     alive: true,
-    ammo: 5,
+    ammo: options.ammo,
     width: 100,
     height: 70,
     posX: 100,
@@ -67,6 +70,12 @@ function drawSupply() {
     }
 }
 
+function drawGunFlash() {
+    for (let i = 0; i < gunFlashArr.length; i++) {
+        ctx.drawImage(gunFlashArr[i].texture, gunFlashArr[i].posX, gunFlashArr[i].posY, gunFlashArr[i].width, gunFlashArr[i].height);
+    }
+}
+
 function createTree() {
     for (let i = 0; i < options.treeNumber; i++) {
         let tree = new Tree();
@@ -86,6 +95,8 @@ function createBullet() {
         let bullet = new Bullet();
         bulletsArr.push(bullet);
         --player.ammo;
+        let gunFlash = new GunFlash();
+        gunFlashArr.push(gunFlash);
     }
 }
 
@@ -107,12 +118,18 @@ function wallDetection() {
             }
         }
     }
+
+    if (gunFlashArr.length > 0) {
+        for (let i = 0; i < gunFlashArr.length; i++) {
+            setTimeout(() => gunFlashArr.splice(i, 1), 40);
+        }
+    }
 }
 
 function keyDownEvent(e) {
     playerIsRunning(e);
 
-    e.key === 'q' ? console.log('Bullets: ', bulletsArr) : null;
+    e.key === 'q' ? console.log('Test: ', gunFlashArr) : null;
     e.keyCode === 69 ? createBullet() : null;
     e.keyCode == 68 ? (player.dirX = 1 * player.speed) : null;
     e.keyCode === 65 ? (player.dirX = -1 * player.speed) : null;
@@ -155,6 +172,7 @@ function update() {
     drawPlayer();
     drawTree();
     drawBullet();
+    drawGunFlash();
     drawGui();
     newPossition();
     gunFire();

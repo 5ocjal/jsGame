@@ -19,6 +19,6 @@ body {
     border-radius: 5px;
 }
 
-#playerImg, #boxImg, #treeImg, #bulletImg{
+#playerImg, #boxImg, #treeImg, #bulletImg, #gunFlashImg{
     display: none;
 }
