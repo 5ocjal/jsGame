@@ -1,14 +1,16 @@
 class Player {
-    constructor(name, ammo, status) {
+    constructor(name, ammo) {
         this.texture = document.getElementById('playerImg');
         this.name = name;
-        this.status = status;
+        this.status = 2;
+        this.description = 'alive'
         this.ammo = ammo;
         this.width = 100;
         this.height = 70;
         this.posX = 200; //Math.floor(Math.random() * (canvas.width - 200 - 0 + 1)) + 0;
         this.posY = 500; //Math.floor(Math.random() * (canvas.height - 200 - 0 + 1)) + 0;
         this.speed = 1;
+        this.isRunning = false;
         this.dirX = 0;
         this.dirY = 0;
     }
