@@ -6,6 +6,7 @@ const ctx = canvas.getContext('2d');
 const playerImg = document.getElementById('playerImg');
 const flash = document.getElementById('flashImg');
 const aim = new Aim();
+
 let mouseX;
 let mouseY;
 let angle = Math.atan2(mouseX - 150, mouseY - 150);
@@ -29,7 +30,7 @@ let options = {
 
 const player = {
     name: 'Rambo',
-    alive: true,
+    status: 2,
     ammo: options.ammo,
     width: 100,
     height: 70,
@@ -49,7 +50,7 @@ function clearScreen() {
 function drawGui() {
     ctx.font = '20px Arial';
     ctx.fillStyle = 'white';
-    ctx.fillText('Player ' + player.name + ' is ' + (player.alive ? 'alive' : 'dead'), 40, 40, 150);
+    ctx.fillText('Player ' + player.name + ' is ' + setPlayerStatus(player.status), 40, 40, 150);
     ctx.fillText('Ammo: ' + player.ammo, 40, 65, 150), ctx.fillText('Running:  ' + (isRunning ? 'On' : 'No'), 40, 90, 150);
 
     ctx.font = '10px Arial';
@@ -159,7 +160,7 @@ function wallDetection() {
 function keyDownEvent(e) {
     playerIsRunning(e);
 
-    e.key === 'q' ? console.log('Test: ', gunFlashArr) : null;
+    e.key === 'q' ? console.log('Test: ', setPlayerStatus(player.status)) : null;
     e.keyCode == 68 ? (player.dirX = 1 * player.speed) : null;
     e.keyCode === 65 ? (player.dirX = -1 * player.speed) : null;
     e.keyCode === 87 ? (player.dirY = -1 * player.speed) : null;
@@ -192,6 +193,18 @@ function useSupply() {
             player.ammo = player.ammo + 3;
             ammoBoxArr = [];
         }
+    }
+}
+
+function setPlayerStatus(status) {
+    if (status === 0) {
+        return 'dead';
+    }
+    if (status === 1) {
+        return 'hurt';
+    }
+    if (status === 2) {
+        return 'alive';
     }
 }
 

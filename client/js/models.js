@@ -1,8 +1,8 @@
 class Player {
-    constructor(name, ammo) {
+    constructor(name, ammo, status) {
         this.texture = document.getElementById('playerImg');
         this.name = name;
-        this.alive = true;
+        this.status = status;
         this.ammo = ammo;
         this.width = 100;
         this.height = 70;
