@@ -30,7 +30,7 @@ let options = {
 
 const player = {
     name: 'Rambo',
-    status: 2,
+    status: 1,
     ammo: options.ammo,
     width: 100,
     height: 70,
@@ -189,9 +189,20 @@ function gunFire() {
 
 function useSupply() {
     for (let i = 0; i < ammoBoxArr.length; i++) {
-        if ((ammoBoxArr[i].texture, ammoBoxArr[i].posX - player.posX <= 30 && ammoBoxArr[i].posY - player.posY <= 20)) {
+        if (ammoBoxArr[i].posX - player.posX <= 30 && ammoBoxArr[i].posY - player.posY <= 20) {
             player.ammo = player.ammo + 3;
-            ammoBoxArr = [];
+            ammoBoxArr.splice(i);
+        }
+    }
+}
+
+function useAidKit() {
+    if (player.status === 1) {
+        for (let i = 0; i < aidSupplyArr.length; i++) {
+            if (aidSupplyArr[i].posX - player.posX <= 30 && aidSupplyArr[i].posY - player.posY <= 20) {
+                player.status = 2;
+                aidSupplyArr.splice(i);
+            }
         }
     }
 }
@@ -221,8 +232,10 @@ function update() {
     gunFire();
     wallDetection();
     useSupply();
+    useAidKit();
     requestAnimationFrame(update);
 }
+
 
 createTree();
 createSupply();
