@@ -5,17 +5,26 @@ const ctx = canvas.getContext('2d');
 
 const playerImg = document.getElementById('playerImg');
 const flash = document.getElementById('flashImg');
+const aim = new Aim();
+let mouseX;
+let mouseY;
+let angle = Math.atan2(mouseX - 150, mouseY - 150);
 
 let playersAlive = [];
 let treesArr = [];
 let bulletsArr = [];
 let ammoBoxArr = [];
+let aidSupplyArr = [];
 let gunFlashArr = [];
 
 let options = {
     ammo: 7,
     treeNumber: 2, // canvas.height /20,
     ammoSupply: 1,
+    aidSupply: 2,
+    timer: null,
+    saftyZone: null,
+    instantKill: false,
 };
 
 const player = {
@@ -31,7 +40,7 @@ const player = {
     dirY: 0,
 };
 
-let = isRunning = false;
+let isRunning = false;
 
 function clearScreen() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -48,8 +57,13 @@ function drawGui() {
     ctx.fillText(player.name, player.posX + 20, player.posY, 70);
 }
 
+function drawAim() {
+    ctx.drawImage(aim.texture, mouseX, mouseY, 30, 30);
+}
+
 function drawPlayer() {
     ctx.drawImage(playerImg, player.posX, player.posY, player.width, player.height);
+    ctx.rotate(angle);
 }
 
 function drawBullet() {
@@ -68,6 +82,10 @@ function drawSupply() {
     for (let i = 0; i < ammoBoxArr.length; i++) {
         ctx.drawImage(ammoBoxArr[i].texture, ammoBoxArr[i].posX, ammoBoxArr[i].posY, ammoBoxArr[i].width, ammoBoxArr[i].height);
     }
+
+    for (let i = 0; i < aidSupplyArr.length; i++) {
+        ctx.drawImage(aidSupplyArr[i].texture, aidSupplyArr[i].posX, aidSupplyArr[i].posY, aidSupplyArr[i].width, aidSupplyArr[i].height);
+    }
 }
 
 function drawGunFlash() {
@@ -84,9 +102,21 @@ function createTree() {
 }
 
 function createSupply() {
-    for (let i = 0; i < options.ammoSupply; i++) {
-        let ammoBox = new Box();
-        ammoBoxArr.push(ammoBox);
+    const box = document.getElementById('boxImg');
+    const aid = document.getElementById('aidImg');
+
+    if (options.ammoSupply > 0) {
+        for (let i = 0; i < options.ammoSupply; i++) {
+            let ammoBox = new Supply(box);
+            ammoBoxArr.push(ammoBox);
+        }
+    }
+
+    if (options.ammoSupply > 0 && !options.instantKill) {
+        for (let i = 0; i < options.aidSupply; i++) {
+            let aidBox = new Supply(aid);
+            aidSupplyArr.push(aidBox);
+        }
     }
 }
 
@@ -130,7 +160,6 @@ function keyDownEvent(e) {
     playerIsRunning(e);
 
     e.key === 'q' ? console.log('Test: ', gunFlashArr) : null;
-    e.keyCode === 69 ? createBullet() : null;
     e.keyCode == 68 ? (player.dirX = 1 * player.speed) : null;
     e.keyCode === 65 ? (player.dirX = -1 * player.speed) : null;
     e.keyCode === 87 ? (player.dirY = -1 * player.speed) : null;
@@ -146,7 +175,7 @@ function keyUpEvent(e) {
 
 function playerIsRunning(e) {
     e.keyCode === 16 ? (isRunning = !isRunning) : null;
-    isRunning ? (player.speed = 5) : (player.speed = 1);
+    isRunning ? (player.speed = 4) : (player.speed = 1);
 }
 
 function gunFire() {
@@ -159,7 +188,7 @@ function gunFire() {
 
 function useSupply() {
     for (let i = 0; i < ammoBoxArr.length; i++) {
-        if (ammoBoxArr[i].posX - player.posX <= 30 && ammoBoxArr[i].posY - player.posY <= 20) {
+        if ((ammoBoxArr[i].texture, ammoBoxArr[i].posX - player.posX <= 30 && ammoBoxArr[i].posY - player.posY <= 20)) {
             player.ammo = player.ammo + 3;
             ammoBoxArr = [];
         }
@@ -169,6 +198,7 @@ function useSupply() {
 function update() {
     clearScreen();
     drawSupply();
+    drawAim();
     drawPlayer();
     drawTree();
     drawBullet();
@@ -187,4 +217,8 @@ update();
 
 document.addEventListener('keydown', keyDownEvent);
 document.addEventListener('keyup', keyUpEvent);
-document.addEventListener('onClick', createBullet);
+document.addEventListener('mousedown', createBullet);
+document.onmousemove = function(mouse) {
+    mouseX = mouse.clientX;
+    mouseY = mouse.clientY;
+};

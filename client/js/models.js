@@ -36,9 +36,9 @@ class Bullet {
     }
 }
 
-class Box {
+class Supply {
     constructor(texture, width, height, posX, posY) {
-        this.texture = document.getElementById('boxImg');
+        this.texture = texture;
         this.width = 40;
         this.height = 40;
         this.posX = Math.floor(Math.random() * (canvas.width - 200 - 0 + 1)) + 0;
@@ -53,5 +53,15 @@ class GunFlash {
         this.height = 20;
         this.posX = player.posX + player.width - 10;
         this.posY = player.posY + player.height -29;
+    }
+}
+
+class Aim {
+    constructor(posX, posY, width, height) {
+        this.texture = document.getElementById('aimImg');
+        this.width = width;
+        this.height = height;
+        this.posX = posX;
+        this.posY = posY;
     }
 }

@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    cursor: none;
 }
 
 body {
@@ -19,6 +20,6 @@ body {
     border-radius: 5px;
 }
 
-#playerImg, #boxImg, #treeImg, #bulletImg, #gunFlashImg{
+#playerImg, #boxImg, #treeImg, #bulletImg, #gunFlashImg, #aimImg, #aidImg{
     display: none;
 }
