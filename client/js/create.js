@@ -11,14 +11,16 @@ function createSupply() {
 
     if (options.ammoSupply > 0) {
         for (let i = 0; i < options.ammoSupply; i++) {
-            let ammoBox = new Supply(box);
+            const id = Math.floor(Math.random() * 1000);
+            let ammoBox = new Supply(id, box);
             ammoBoxArr.push(ammoBox);
         }
     }
 
     if (options.ammoSupply > 0 && !options.instantKill) {
         for (let i = 0; i < options.aidSupply; i++) {
-            let aidBox = new Supply(aid);
+            const id = Math.floor(Math.random() * 1000);
+            let aidBox = new Supply(id, aid);
             aidSupplyArr.push(aidBox);
         }
     }
@@ -26,7 +28,8 @@ function createSupply() {
 
 function createBullet() {
     if (player.ammo > 0) {
-        let bullet = new Bullet();
+        const id = Math.floor(Math.random() * 1000);
+        let bullet = new Bullet(id, player.name);
         bulletsArr.push(bullet);
         --player.ammo;
         let gunFlash = new GunFlash();

@@ -1,7 +1,7 @@
 class Player {
-    constructor(name, ammo) {
-        this.texture = document.getElementById('playerImg');
+    constructor(name, texture, ammo) {
         this.name = name;
+        this.texture = texture;
         this.status = 2;
         this.description = 'alive'
         this.ammo = ammo;
@@ -19,15 +19,17 @@ class Player {
 class Tree {
     constructor(texture, width, height, posX, posY) {
         this.texture = document.getElementById('treeImg');
-        this.width = Math.floor(Math.random() * (800 - 600 + 1)) + 600;
-        this.height = Math.floor(Math.random() * (800 - 600 + 1)) + 600;
+        this.width = Math.floor(Math.random() * (400 - 300 + 1)) + 400;
+        this.height = Math.floor(Math.random() * (400 - 300 + 1)) + 400;
         this.posX = Math.floor(Math.random() * (canvas.width - 200 - 0 + 1)) + 0;
         this.posY = Math.floor(Math.random() * (canvas.height - 200 - 0 + 1)) + 0;
     }
 }
 
 class Bullet {
-    constructor(texture, width, height, posX, posY, dirX, dirY) {
+    constructor(id, shotBy, texture, width, height, posX, posY, dirX, dirY) {
+        this.id = id;
+        this.shotBy = this.shotBy; 
         this.texture = document.getElementById('bulletImg');
         this.width = 15;
         this.height = 5;
@@ -39,7 +41,8 @@ class Bullet {
 }
 
 class Supply {
-    constructor(texture, width, height, posX, posY) {
+    constructor(id, texture, width, height, posX, posY) {
+        this.id = id;
         this.texture = texture;
         this.width = 40;
         this.height = 40;

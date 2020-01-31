@@ -16,6 +16,14 @@ function keyUpEvent(e) {
 }
 
 function playerIsRunning(e) {
-    e.keyCode === 16 ? (player.isRunning = !player.isRunning) : null;
-    player.isRunning ? (player.speed = 4) : (player.speed = 1);
+
+    if(e.keyCode === 16 && player.status ===2){
+        player.isRunning = !player.isRunning;
+        player.isRunning ? (player.speed =4) : (player.speed =1);
+    }
+
+    if(player.status === 1){
+        player.speed = 1
+    };
+
 }

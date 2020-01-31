@@ -1,10 +1,11 @@
 const canvas = document.getElementById('canvas');
-canvas.width = window.innerWidth;
-canvas.height = window.innerWidth;
+canvas.width = 900 //window.innerWidth;
+canvas.height = 700 //window.innerWidth;
 const ctx = canvas.getContext('2d');
 
 const playerImg = document.getElementById('playerImg');
 const flash = document.getElementById('flashImg');
+const deadImg = document.getElementById('graveImg');
 const aim = new Aim();
 
 let mouseX;
@@ -21,7 +22,7 @@ let gunFlashArr = [];
 let options = {
     ammo: 7,
     treeNumber: 2, // canvas.height /20,
-    ammoSupply: 1,
+    ammoSupply: 4,
     aidSupply: 2,
     timer: null,
     saftyZone: null,
@@ -30,6 +31,7 @@ let options = {
 
 const player = {
     name: 'Rambo',
+    texture: playerImg,
     status: 1,
     description: 'hurt',
     ammo: options.ammo,
@@ -37,7 +39,7 @@ const player = {
     height: 70,
     posX: 100,
     posY: 200,
-    speed: 3,
+    speed: 1,
     isRunning: false,
     dirX: 0,
     dirY: 0,
@@ -55,6 +57,7 @@ function playerStatusMonitor() {
     }
     if (player.status === 1) {
         player.description = 'hurt';
+        player.speed = 1
     }
     if (player.status === 2) {
         player.description = 'alive';
@@ -74,6 +77,7 @@ function update() {
     playerStatusMonitor();
     gunFire();
     wallDetection();
+    youAreDead();
     useSupply();
     useAidKit();
     requestAnimationFrame(update);
