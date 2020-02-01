@@ -61,6 +61,17 @@ class GunFlash {
     }
 }
 
+class BloodSplash {
+    constructor( texture) {
+        this.texture = document.getElementById('bloodRImg');
+        this.width = Math.floor(Math.random() * (40 - 20 + 1)) + 40;
+        this.height = Math.floor(Math.random() * (40 - 20 + 1)) + 40;
+        this.posX = player.posX + 25;
+        this.posY = player.posY + 20;
+
+    }
+}
+
 class Aim {
     constructor(posX, posY, width, height) {
         this.texture = document.getElementById('aimImg');

@@ -46,6 +46,12 @@ function drawGunFlash() {
     });
 }
 
+function drawBloodSplash() {
+    bloodSplashArr.forEach(b => {
+        ctx.drawImage(b.texture, b.posX, b.posY, b.width, b.height);
+    });
+}
+
 function statusInfo() {
     if (player.status === 2) {
         if (player.isRunning) {

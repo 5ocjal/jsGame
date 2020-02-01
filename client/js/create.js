@@ -1,3 +1,9 @@
+const flash = document.getElementById('flashImg');
+const deadImg = document.getElementById('graveImg');
+const bloodLImg = document.getElementById('bloodLImg');
+const bloodRImg = document.getElementById('bloodRImg');
+
+
 function createTree() {
     for (let i = 0; i < options.treeNumber; i++) {
         let tree = new Tree();
@@ -37,3 +43,4 @@ function createBullet() {
         gunFlashArr.push(gunFlash);
     }
 }
+

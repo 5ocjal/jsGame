@@ -4,8 +4,8 @@ canvas.height = 700 //window.innerWidth;
 const ctx = canvas.getContext('2d');
 
 const playerImg = document.getElementById('playerImg');
-const flash = document.getElementById('flashImg');
-const deadImg = document.getElementById('graveImg');
+
+
 const aim = new Aim();
 
 let mouseX;
@@ -18,6 +18,7 @@ let bulletsArr = [];
 let ammoBoxArr = [];
 let aidSupplyArr = [];
 let gunFlashArr = [];
+let bloodSplashArr = [];
 
 let options = {
     ammo: 7,
@@ -32,8 +33,8 @@ let options = {
 const player = {
     name: 'Rambo',
     texture: playerImg,
-    status: 1,
-    description: 'hurt',
+    status: 2,
+    description: '',
     ammo: options.ammo,
     width: 100,
     height: 70,
@@ -54,6 +55,9 @@ function clearScreen() {
 function playerStatusMonitor() {
     if (player.status === 0) {
         player.description = 'dead';
+        player.texture = deadImg;
+        player.speed = 0;
+        player.ammo = 0;
     }
     if (player.status === 1) {
         player.description = 'hurt';
@@ -72,6 +76,7 @@ function update() {
     drawTree();
     drawBullet();
     drawGunFlash();
+    drawBloodSplash();
     drawGui();
     newPossition();
     playerStatusMonitor();
@@ -80,6 +85,7 @@ function update() {
     youAreDead();
     useSupply();
     useAidKit();
+    timeEventsMonitor();
     requestAnimationFrame(update);
 }
 

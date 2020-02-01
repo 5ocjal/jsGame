@@ -11,12 +11,6 @@ function wallDetection() {
             }
         });
     }
-
-    if (gunFlashArr.length > 0) {
-        gunFlashArr.forEach(f => {
-            setTimeout(() => gunFlashArr.splice(f, 1), 40);
-        });
-    }
 }
 
 function getDistance(x1, y1, x2, y2){
@@ -25,3 +19,4 @@ function getDistance(x1, y1, x2, y2){
 
     return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance,2));
 }
+

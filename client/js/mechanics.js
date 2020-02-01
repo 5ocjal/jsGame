@@ -33,9 +33,28 @@ function useAidKit() {
 function youAreDead() {
     bulletsArr.forEach(b => {
         let hitZone = getDistance(player.posX, player.posY, b.posX, b.posY);
-        
-        if(hitZone <= 50){
-            --player.status
+
+        if (hitZone <= 50) {
+            let blood = new BloodSplash();
+            bloodSplashArr.push(blood);
+            --player.status;
+            bulletsArr.splice(b, 1);
         }
     });
 }
+
+function timeEventsMonitor() {
+    if (gunFlashArr.length > 0) {
+        gunFlashArr.forEach(f => {
+            setTimeout(() => gunFlashArr.splice(f, 1), 40);
+        });
+    }
+
+    if(bloodSplashArr.length >0) {
+        bloodSplashArr.forEach(b => {
+            setTimeout(() => bloodSplashArr.splice(b, 1), 60);
+        })
+    }
+}
+
+
