@@ -32,9 +32,9 @@ class Bullet {
         this.shotBy = this.shotBy; 
         this.texture = document.getElementById('bulletImg');
         this.width = 15;
-        this.height = 5;
+        this.height = 8;
         this.posX = player.posX + player.width - 15;
-        this.posY = player.posY + player.height - 21;
+        this.posY = player.posY + player.height - 23;
         this.dirX = 25;
         this.dirY = 24;
     }

@@ -5,7 +5,7 @@ function newPossition() {
 
 function gunFire() {
     bulletsArr.forEach(b => {
-        b.posX += b.dirY;
+        b.posX += b.dirX;
     });
 }
 
@@ -32,9 +32,10 @@ function useAidKit() {
 
 function youAreDead() {
     bulletsArr.forEach(b => {
-        if (b.posX == player.posX) {
-            console.log('Hit!');
-            --player.status;
+        let hitZone = getDistance(player.posX, player.posY, b.posX, b.posY);
+        
+        if(hitZone <= 50){
+            --player.status
         }
     });
 }

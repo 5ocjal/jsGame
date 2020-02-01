@@ -21,7 +21,7 @@ let gunFlashArr = [];
 
 let options = {
     ammo: 7,
-    treeNumber: 2, // canvas.height /20,
+    treeNumber: 1, // canvas.height /20,
     ammoSupply: 4,
     aidSupply: 2,
     timer: null,

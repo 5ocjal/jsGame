@@ -32,6 +32,7 @@ function createBullet() {
         let bullet = new Bullet(id, player.name);
         bulletsArr.push(bullet);
         --player.ammo;
+        console.log('Bullet: ', bulletsArr);
         let gunFlash = new GunFlash();
         gunFlashArr.push(gunFlash);
     }
