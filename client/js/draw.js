@@ -1,11 +1,11 @@
 function drawGui() {
     ctx.font = '20px Roboto';
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = '#2A3439';
     ctx.fillText('Player ' + player.name + ' is ' + player.description, 40, 40, 200);
     ctx.fillText('Ammo: ' + player.ammo, 40, 65, 200), ctx.fillText('Running:  ' + statusInfo(), 40, 90, 200);
 
-    ctx.font = '10px Roboto';
-    ctx.fillStyle = 'black';
+    ctx.font = '12px Roboto';
+    ctx.fillStyle = '#2A3439';
     ctx.fillText(player.name, player.posX + 20, player.posY, 70);
 }
 
@@ -28,6 +28,12 @@ function drawTree() {
     treesArr.forEach(t => {
         ctx.drawImage(t.texture, t.posX, t.posY, t.width, t.height);
     });
+}
+
+function drawGrass(){
+    grassArr.forEach(g => {
+        ctx.drawImage(g.texture, g.posX, g.posY, g.width, g.height);
+    })
 }
 
 function drawSupply() {

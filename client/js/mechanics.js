@@ -19,15 +19,15 @@ function useSupply() {
 }
 
 function useAidKit() {
-    if (player.status === 1) {
-        aidSupplyArr.forEach(a => {
-            if (a.posX - player.posX < 30 && a.posY - player.posY < 3) {
-                console.log('Aid', a.id);
-                player.status = 2;
-                // FIXME - doesn't hide exact item
-            }
-        });
-    }
+    // if (player.status === 1) {
+    //     aidSupplyArr.forEach(a => {
+    //         if (a.posX - player.posX < 30 && a.posY - player.posY < 3) {
+    //             console.log('Aid', a.id);
+    //             player.status = 2;
+    //             // FIXME - doesn't hide exact item
+    //         }
+    //     });
+    // }
 }
 
 function youAreDead() {
@@ -35,7 +35,7 @@ function youAreDead() {
         let hitZone = getDistance(player.posX, player.posY, b.posX, b.posY);
 
         if (hitZone <= 50) {
-            let blood = new BloodSplash();
+            let blood = new BloodSplash(b.posX, b.posY);
             bloodSplashArr.push(blood);
             --player.status;
             bulletsArr.splice(b, 1);

@@ -11,6 +11,13 @@ function createTree() {
     }
 }
 
+function createGrass(){
+    for (let i = 0; i < options.grassNumber; i++){
+        let grass = new Grass();
+        grassArr.push(grass);
+    }
+}
+
 function createSupply() {
     const box = document.getElementById('boxImg');
     const aid = document.getElementById('aidImg');

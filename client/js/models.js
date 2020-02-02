@@ -26,6 +26,16 @@ class Tree {
     }
 }
 
+class Grass {
+    constructor(texture, width, height, posX, posY) {
+        this.texture = document.getElementById('grassImg');
+        this.width = Math.floor(Math.random() * (20 - 10 + 1)) + 20;
+        this.height = Math.floor(Math.random() * (20 - 10 + 1)) + 20;
+        this.posX = Math.floor(Math.random() * (canvas.width - 0 + 1)) + 0;
+        this.posY = Math.floor(Math.random() * (canvas.height - 0 + 1)) + 0;
+    }
+}
+
 class Bullet {
     constructor(id, shotBy, texture, width, height, posX, posY, dirX, dirY) {
         this.id = id;
@@ -62,12 +72,12 @@ class GunFlash {
 }
 
 class BloodSplash {
-    constructor( texture) {
-        this.texture = document.getElementById('bloodRImg');
+    constructor(posX, posY) {
+        this.texture = document.getElementById('bloodImg');
         this.width = Math.floor(Math.random() * (40 - 20 + 1)) + 40;
         this.height = Math.floor(Math.random() * (40 - 20 + 1)) + 40;
-        this.posX = player.posX + 25;
-        this.posY = player.posY + 20;
+        this.posX = posX;
+        this.posY = posY;
 
     }
 }

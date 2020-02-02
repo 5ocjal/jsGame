@@ -1,7 +1,7 @@
 function keyDownEvent(e) {
     playerIsRunning(e);
 
-    e.key === 'q' ? console.log('Test: ', setPlayerStatus(player.status)) : null;
+    e.key === 'q' ? console.log('Test: ', grassArr) : null;
     e.keyCode == 68 ? (player.dirX = 1 * player.speed) : null;
     e.keyCode === 65 ? (player.dirX = -1 * player.speed) : null;
     e.keyCode === 87 ? (player.dirY = -1 * player.speed) : null;

@@ -1,10 +1,9 @@
 const canvas = document.getElementById('canvas');
-canvas.width = 900 //window.innerWidth;
-canvas.height = 700 //window.innerWidth;
+canvas.width = 800; //window.innerWidth;
+canvas.height = 600; //window.innerWidth;
 const ctx = canvas.getContext('2d');
 
 const playerImg = document.getElementById('playerImg');
-
 
 const aim = new Aim();
 
@@ -14,6 +13,7 @@ let angle = Math.atan2(mouseX - 150, mouseY - 150);
 
 let playersAlive = [];
 let treesArr = [];
+let grassArr = [];
 let bulletsArr = [];
 let ammoBoxArr = [];
 let aidSupplyArr = [];
@@ -23,6 +23,7 @@ let bloodSplashArr = [];
 let options = {
     ammo: 7,
     treeNumber: 1, // canvas.height /20,
+    grassNumber: canvas.width *4,
     ammoSupply: 4,
     aidSupply: 2,
     timer: null,
@@ -58,18 +59,26 @@ function playerStatusMonitor() {
         player.texture = deadImg;
         player.speed = 0;
         player.ammo = 0;
+
+        ctx.font = '250px Bangers';
+        ctx.fillStyle = '#E8BA00';
+        ctx.fillText('You are', 250, 300, 300);
+        ctx.fillText('dead!', 250, 490, 300);
     }
     if (player.status === 1) {
         player.description = 'hurt';
-        player.speed = 1
+        player.speed = 1;
+        drawGui();
     }
     if (player.status === 2) {
         player.description = 'alive';
+        drawGui();
     }
 }
 
 function update() {
     clearScreen();
+    drawGrass();
     drawSupply();
     drawAim();
     drawPlayer();
@@ -77,7 +86,6 @@ function update() {
     drawBullet();
     drawGunFlash();
     drawBloodSplash();
-    drawGui();
     newPossition();
     playerStatusMonitor();
     gunFire();
@@ -90,6 +98,7 @@ function update() {
 }
 
 createTree();
+createGrass();
 createSupply();
 update();
 
